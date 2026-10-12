@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stock Price Tracking</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="brand">Stock Price Tracking</div>
+    <form id="search-form" class="search">
+      <input id="symbol-input" type="text" placeholder="Ticker e.g. AAPL, MSFT, RELIANCE.NS" autocomplete="off" value="AAPL">
+      <button type="submit">Search</button>
+    </form>
+  </nav>
+
+  <main class="container">
+    <div id="error" class="error" hidden></div>
+
+    <!-- Stock Header -->
+    <section class="card header" id="stock-header">
+      <div class="h-left">
+        <h1 id="h-name">Loading…</h1>
+        <div class="meta"><span id="h-ticker" class="pill">—</span><span id="h-exchange" class="pill muted">—</span><span id="h-currency" class="pill muted">—</span></div>
+      </div>
+      <div class="h-mid">
+        <div class="price" id="h-price">—</div>
+        <div class="change" id="h-change">—</div>
+      </div>
+      <div class="h-right"><div id="spark"></div></div>
+    </section>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="chart">Graphical Representation</button>
+      <button class="tab" data-tab="daily">Daily Prices (1 Year)</button>
+    </div>
+
+    <!-- Overview -->
+    <section class="tabpane active" id="tab-overview">
+      <div class="grid" id="stats"></div>
+      <div class="card" id="about" hidden>
+        <h3>About</h3>
+        <p id="about-text"></p>
+      </div>
+    </section>
+
+    <!-- Graphical Representation -->
+    <section class="tabpane" id="tab-chart">
+      <div class="card">
+        <div class="chart-head">
+          <div>
+            <h3>Graphical Representation</h3>
+            <div class="chart-sub"><span id="c-ticker">—</span> · <span id="c-price">—</span> <span id="c-change"></span></div>
+          </div>
+          <div class="controls">
+            <div class="ranges" id="ranges">
+              <button data-r="1D">1 Day</button>
+              <button data-r="5D">5 Days</button>
+              <button data-r="1M" class="active">1 Month</button>
+              <button data-r="3M">3 Months</button>
+              <button data-r="6M">6 Months</button>
+              <button data-r="1Y">1 Year</button>
+              <button data-r="5Y">5 Years</button>
+              <button data-r="MAX">Max</button>
+            </div>
+            <div class="ranges" id="types">
+              <button data-t="line" class="active">Line</button>
+              <button data-t="candle">Candles</button>
+            </div>
+          </div>
+        </div>
+        <div id="header-graph"></div>
+        <div id="main-chart"></div>
+      </div>
+    </section>
+
+    <!-- Daily Prices -->
+    <section class="tabpane" id="tab-daily">
+      <div class="card">
+        <h3>Daily Prices — Present Day, Previous Day and so on (1 Year)</h3>
+        <div class="table-wrap">
+          <table id="daily-table">
+            <thead><tr><th>Day</th><th>Date</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Volume</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Stock Price Tracking · Market data via Yahoo Finance (yfinance), may be delayed. Not investment advice.</footer>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
